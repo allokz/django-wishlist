@@ -47,7 +47,7 @@
     <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
     <div class="card-body vstack">
         <p class="card-text text-center mb-auto">Füge einen weiteren Wunsch zu deiner Liste hinzu.</p>
-        <a href="#" class="button button-secondary text-center">Neuen Wunsch hinzufügen</a>
+        <a href="{% url 'wish-create' %}" class="button button-secondary text-center">Neuen Wunsch hinzufügen</a>
     </div>
 </div>
 {% else %}

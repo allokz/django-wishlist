@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
+from django.http import request
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Wish, CustomUser
 import datetime
 
@@ -66,3 +68,8 @@ class WishListView(generic.ListView):
         context['wishlist_user_id'] = wishlist_user_id
 
         return context
+
+class WishCreateView(CreateView):
+    model = Wish
+    template_name = 'wish_create.html'
+    fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']

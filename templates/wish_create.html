@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table class="mb-4">
+        {{ form.as_table }}
+    </table>
+    <input type="submit" class="btn btn-secondary" value="Das wünsche ich mir!">
+    <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Zurück</a>
+</form>
+
+{% endblock %}
