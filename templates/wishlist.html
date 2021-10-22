@@ -1,0 +1,63 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+
+<h2>{% if user.id == wishlist_user_id %}Mein{% else %}{{ user.name }}s{% endif %} Wunschzettel</h2>
+<p class="mb-0">{{ wish_list.count }} Wünsche im Wert von € {{ total }}</p>
+<p>Nächstes Ereignis: <strong>{{ next_event_name }} am {{ next_event_date }}</strong> (in {{ days_to_next_event }} Tagen)</p>
+<p>{{ wish.user }}</p>
+
+
+{% load static %}
+{% if wish_list %}
+    {% for wish in wish_list %}
+        <div class="card">
+            {% if wish.image %}
+            <img src="media/keksteig.jpg" class="card-img-top">
+            {% else %}
+            <div class="card-img-noimg"></div>
+            {% endif %}
+            <div class="card-body vstack">
+                <a href="{{ wish.link }}"
+                    class="card-title-link" target="_blank">
+                    <h5 class="card-title">{{ wish.name }}</h5>
+                </a>
+                <p class="card-text mb-auto">{{ wish.description }}</p>
+                <p class="card-price mt-2 text-center">€ {{ wish.price }}</p>
+                {% if user == wish.user %}
+                <div class="hstack gap-2 overflow-hidden">
+                    <a href="#" class="button button-secondary text-center ms-auto">Bearbeiten</a>
+                    <a href="#" class="button button-red text-center me-auto">Entf.</a>
+                </div>
+                {% else %}
+                <a href="#" class="button button-secondary text-center">Schenken</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+<div class="alert alert-warning" role="alert">
+    No wishes on this wishlist.
+</div>
+{% endif %}
+
+{% if user.id == wishlist_user_id %}
+<div class="card">
+    <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
+    <div class="card-body vstack">
+        <p class="card-text text-center mb-auto">Füge einen weiteren Wunsch zu deiner Liste hinzu.</p>
+        <a href="#" class="button button-secondary text-center">Neuen Wunsch hinzufügen</a>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
+    <div class="card-body vstack">
+        <p class="card-text text-center mb-auto">Füge ein eigenes Geschenk der Liste hinzu <small>(dieses wird direkt als reserviert markiert).</small></p>
+        <a href="#" class="button button-secondary text-center">Eigenes Geschenk hinzufügen</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

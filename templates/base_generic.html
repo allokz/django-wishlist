@@ -30,12 +30,19 @@
                         {% url 'index' as url_index %}
 						<a class="nav-link {% if request.path == url_index %}active{% endif %}" href="{% url 'index' %}">Home</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Mein Wunschzettel</a>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        {% url 'wishlist' as url_wishlist %}
+						<a class="nav-link {% if request.path == url_wishlist %}active{% endif %}" href="{% url 'wishlist' user.id %}">Mein Wunschzettel</a>
 					</li>
-					<li class="nav-item">
+                    <li class="nav-item">
 						<a class="nav-link" href="#">Mit mir geteilt</a>
 					</li>
+                    {% else %}
+                    <li class="nav-item">
+						<a class="nav-link" href="#">Wunschliste erstellen</a>
+					</li>
+                    {% endif %}
 				</ul>
                 {% if user.is_authenticated %}
                 <div class="btn-group d-flex">
