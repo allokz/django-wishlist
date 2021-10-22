@@ -16,7 +16,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark">
+	<nav class="navbar navbar-expand-md navbar-dark">
 		<div class="container-fluid" style="max-width: 768px;">
 			<a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/brand.png' %}" alt="brand" height="40px"></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -25,7 +25,7 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-sm-0">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
 					<li class="nav-item">
                         {% url 'index' as url_index %}
 						<a class="nav-link {% if request.path == url_index %}active{% endif %}" href="{% url 'index' %}">Home</a>
@@ -38,9 +38,17 @@
 					</li>
 				</ul>
                 {% if user.is_authenticated %}
-                <div class="btn-group d-flex" role="group">
+                <div class="btn-group d-flex">
                     <a class="btn btn-outline-light" href="#"><i class="fas fa-user-circle"></i> {{ user.username }}</a>
-                    <a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a>
+                    <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Dein Profil</a></li>
+                        <li><a class="dropdown-item" href="#">Einstellungen</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
                 </div>
                 {% else %}
                 <a class="btn btn-outline-light d-flex" href="{% url 'login' %}">Login</a>
