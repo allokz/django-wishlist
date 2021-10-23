@@ -3,7 +3,9 @@ from django.http import request
 from django.shortcuts import render
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Wish, CustomUser
+from .forms import WishCreateForm
 import datetime
 
 
@@ -71,5 +73,7 @@ class WishListView(generic.ListView):
 
 class WishCreateView(CreateView):
     model = Wish
+    form_class = WishCreateForm
     template_name = 'wish_create.html'
+    success_url = reverse_lazy('wish-create')
     fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
