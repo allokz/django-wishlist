@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.urls.base import reverse
 import uuid
+
 
 
 class CustomUser(AbstractUser):
@@ -19,3 +21,6 @@ class Wish(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('wish-detail', args=[str(self.id)])
