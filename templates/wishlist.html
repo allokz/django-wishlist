@@ -14,12 +14,12 @@
     {% for wish in wish_list %}
         <div class="card">
             {% if wish.image %}
-            <img src="media/keksteig.jpg" class="card-img-top">
+            <img src="{{ wish.image.url }}" class="card-img-top">
             {% else %}
             <div class="card-img-noimg"></div>
             {% endif %}
             <div class="card-body vstack">
-                <a href="{{ wish.link }}"
+                <a href="{{ wish.get_absolute_url }}"
                     class="card-title-link" target="_blank">
                     <h5 class="card-title">{{ wish.name }}</h5>
                 </a>
@@ -27,8 +27,8 @@
                 <p class="card-price mt-2 text-center">€ {{ wish.price }}</p>
                 {% if user == wish.user %}
                 <div class="hstack gap-2 overflow-hidden">
-                    <a href="#" class="button button-secondary text-center ms-auto">Bearbeiten</a>
-                    <a href="#" class="button button-red text-center me-auto">Entf.</a>
+                    <a href="{{ wish.get_absolute_url }}/update" class="button button-secondary text-center ms-auto">Bearbeiten</a>
+                    <a href="{{ wish.get_absolute_url }}/delete" class="button button-red text-center me-auto"><i class="fas fa-trash-alt"></i></a>
                 </div>
                 {% else %}
                 <a href="#" class="button button-secondary text-center">Schenken</a>
