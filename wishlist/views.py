@@ -71,9 +71,21 @@ class WishListView(generic.ListView):
 
         return context
 
+def wish_detail_view(request, pk):
+    return render(request, 'index.html')
+
 class WishCreateView(CreateView):
     model = Wish
     form_class = WishCreateForm
     template_name = 'wish_create.html'
-    success_url = reverse_lazy('wish-create')
+
+class WishUpdateView(UpdateView):
+    model = Wish
     fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
+    template_name = 'wish_update.html'
+    success_url = reverse_lazy('index')
+
+class WishDeleteView(DeleteView):
+    model = Wish
+    template_name = 'wish_delete.html'
+    success_url = reverse_lazy('index')

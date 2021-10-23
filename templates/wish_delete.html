@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Delete Wish</h1>
+
+<p>Are you sure you want to delete the wish: {{ wish }}?</p>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-secondary" value="Yes, delete.">
+    <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Zurück</a>
+</form>
+
+
+{% endblock %}
