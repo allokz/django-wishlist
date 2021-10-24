@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from django.http import request
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls.base import reverse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Wish, CustomUser
-from .forms import WishCreateForm
+from .forms import WishCreateForm, WishUpdateForm
 import datetime
 
 
@@ -78,14 +80,23 @@ class WishCreateView(CreateView):
     model = Wish
     form_class = WishCreateForm
     template_name = 'wish_create.html'
+    success_url = reverse_lazy('wish-operation-success')
 
 class WishUpdateView(UpdateView):
     model = Wish
-    fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
+    form_class = WishUpdateForm
     template_name = 'wish_update.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('wish-operation-success')  
 
 class WishDeleteView(DeleteView):
     model = Wish
     template_name = 'wish_delete.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('wish-operation-success')
+
+def wish_operation_success(request):
+    user_id = None
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        return HttpResponseRedirect(reverse('wishlist', args=[str(user_id)]))
+    else:
+        return HttpResponseRedirect(reverse_lazy('index'))
