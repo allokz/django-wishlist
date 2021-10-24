@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import request
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls.base import reverse
@@ -79,7 +79,7 @@ class WishListView(generic.ListView):
 def wish_detail_view(request, pk):
     return render(request, 'index.html')
 
-class WishCreateView(CreateView):
+class WishCreateView(LoginRequiredMixin, CreateView):
     model = Wish
     form_class = WishCreateForm
     template_name = 'wish_create.html'
@@ -91,13 +91,13 @@ class WishCreateView(CreateView):
         kwargs['request'] = self.request
         return kwargs
 
-class WishUpdateView(UpdateView):
+class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish
     form_class = WishUpdateForm
     template_name = 'wish_update.html'
     success_url = reverse_lazy('wish-operation-success')  
 
-class WishDeleteView(DeleteView):
+class WishDeleteView(LoginRequiredMixin, DeleteView):
     model = Wish
     template_name = 'wish_delete.html'
     success_url = reverse_lazy('wish-operation-success')
