@@ -19,10 +19,13 @@
             <div class="card-img-noimg"></div>
             {% endif %}
             <div class="card-body vstack">
-                <a href="{{ wish.get_absolute_url }}"
-                    class="card-title-link" target="_blank">
+                {% if wish.shop_url %}
+                <a href="{{ wish.shop_url }}" class="card-title-link" target="_blank">
                     <h5 class="card-title">{{ wish.name }}</h5>
                 </a>
+                {% else %}
+                <h5 class="card-title">{{ wish.name }}</h5>
+                {% endif %}
                 <p class="card-text mb-auto">{{ wish.description }}</p>
                 <p class="card-price mt-2 text-center">€ {{ wish.price }}</p>
                 {% if user == wish.user %}
