@@ -85,6 +85,12 @@ class WishCreateView(CreateView):
     template_name = 'wish_create.html'
     success_url = reverse_lazy('wish-operation-success')
 
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class. This is necessary to assign the correct user id to newly created wishes. """
+        kwargs = super(WishCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 class WishUpdateView(UpdateView):
     model = Wish
     form_class = WishUpdateForm

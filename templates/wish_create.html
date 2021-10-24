@@ -29,8 +29,10 @@
         {{ form.image }}
         {{ form.image.errors }}
     </div>
-
-    {{ form.user }}
+    <div class="form-floating mb-3">
+        {{ form.user }}
+        <label for="{{ form.user.id_for_label }}">zugeordnete Benutzer-ID</label>
+    </div>
 
     <div class="mb-3">
         <input type="submit" class="btn btn-success me-2" value="Das wünsche ich mir!">

@@ -26,6 +26,17 @@ wishform_widgets = {
 }
 
 class WishCreateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        """ Grants access to the request object so that the correct id for the current user is assigned. """
+        self.request = kwargs.pop('request')
+        super(WishCreateForm, self).__init__(*args, **kwargs)
+        self.fields['user'].widget = widgets.TextInput(attrs={
+            'class': "form-control",
+            'value': self.request.user.id,
+            'readonly': True,
+        })
+
     class Meta:
         model = Wish
         fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
