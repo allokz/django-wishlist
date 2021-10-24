@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<h1>Delete Wish</h1>
+<h3>Wunsch löschen</h3>
 
-<p>Are you sure you want to delete the wish: {{ wish }}?</p>
+<p>Bist du sicher, dass du den Wunsch <strong>{{ wish }}</strong> löschen möchtest?</p>
 
 <form action="" method="POST">
     {% csrf_token %}
-    <input type="submit" class="btn btn-secondary" value="Yes, delete.">
-    <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Zurück</a>
+    <input type="submit" class="btn btn-danger" value="Ja, löschen.">
+    <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Abbrechen</a>
 </form>
 
 
