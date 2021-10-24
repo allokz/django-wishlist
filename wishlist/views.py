@@ -109,3 +109,7 @@ def wish_operation_success(request):
         return HttpResponseRedirect(reverse('wishlist', args=[str(user_id)]))
     else:
         return HttpResponseRedirect(reverse_lazy('index'))
+
+
+def wishlists_shared_with_me(request):
+    return render(request, 'wishlists_shared.html')
