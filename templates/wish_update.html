@@ -4,7 +4,30 @@
 
 <form action="" method="post" enctype="multipart/form-data" style="max-width: 500px; margin: auto;">
     {% csrf_token %}
-    {{ form }}
+    <div class="form-floating mb-3">
+        {{ form.name }}
+        <label for="{{ form.name.id_for_label }}">Name</label>
+        {{ form.name.errors }}
+    </div>
+    <div class="form-floating mb-3">
+        {{ form.description }}
+        <label for="{{ form.description.id_for_label }}">Beschreibung</label>
+        {{ form.description.errors }}
+    </div>
+    <div class="form-floating mb-3">
+        {{ form.shop_url }}
+        <label for="{{ form.shop_url.id_for_label }}">Link</label>
+        {{ form.shop_url.errors }}
+    </div>
+    <div class="form-floating mb-3">
+        {{ form.price }}
+        <label for="{{ form.price.id_for_label }}">Preis</label>
+        {{ form.price.errors }}
+    </div>
+    <div class="mb-3">
+        {{ form.image }}
+        {{ form.image.errors }}
+    </div>
 
     <div class="mb-3">
         <input type="submit" class="btn btn-success me-2" value="Das wünsche ich mir!">

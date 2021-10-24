@@ -29,4 +29,10 @@ class WishCreateForm(forms.ModelForm):
     class Meta:
         model = Wish
         fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
+        widgets = wishform_widgets
 
+class WishUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Wish
+        fields = ['name', 'description', 'image', 'shop_url', 'price']
+        widgets = wishform_widgets
