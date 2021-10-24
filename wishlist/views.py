@@ -46,8 +46,10 @@ class WishListView(generic.ListView):
             christmas_date = datetime.date(year + 1, 12, 24)
 
         birthday = datetime.date
+        wishlist_username = None
         for user in CustomUser.objects.filter(id__exact=wishlist_user_id):
             birthday = datetime.date(year, user.birthday.month, user.birthday.day)
+            wishlist_username = user.username
         if today > birthday:
             birthday = datetime.date(year + 1, birthday.month, birthday.day)
 
@@ -70,6 +72,7 @@ class WishListView(generic.ListView):
         context['next_event_date'] = next_event_date
         context['days_to_next_event'] = days_to_next_event
         context['wishlist_user_id'] = wishlist_user_id
+        context['wishlist_user_name'] = wishlist_username
 
         return context
 
