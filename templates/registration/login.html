@@ -1,6 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if next %}
+<div class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    Um auf diese Seite zugreifen zu können musst du angemeldet sein.
+  </div>
+{% endif %}
 <div class="container login-form">
     <h2 style="text-align: center;">Login</h2>
     <p style="text-align: center; margin-bottom: 40px;">Sie haben noch kein Konto? <a href="#">Erstellen Sie eines.</a></p>
