@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls.base import reverse
@@ -138,3 +139,11 @@ def wish_operation_success(request):
 
 def wishlists_shared_with_me(request):
     return render(request, 'wishlists_shared.html')
+
+
+class ProfileView(LoginRequiredMixin, generic.ListView):
+    model = Wish
+    template_name = 'profile.html'
+
+    def get_queryset(self):
+        return Wish.objects.filter(gifter__exact=self.request.user.id).order_by('user', 'name')
