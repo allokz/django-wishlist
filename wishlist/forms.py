@@ -31,7 +31,7 @@ class WishCreateForm(forms.ModelForm):
         self.request = kwargs.pop('request')
         super(WishCreateForm, self).__init__(*args, **kwargs)
         self.fields['user'].widget = widgets.TextInput(attrs={
-            'class': "form-control",
+            'class': "form-control d-none",
             'value': self.request.user.id,
             'readonly': True,
         })
@@ -41,11 +41,40 @@ class WishCreateForm(forms.ModelForm):
         fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
         widgets = wishform_widgets
 
+
+class OwnWishCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        """ Grants access to the request object so that the correct id from the current user is assigned to gifter. """
+        self.request = kwargs.pop('request')
+        self.owner_id = kwargs.pop('owner_id')
+        super(OwnWishCreateForm, self).__init__(*args, **kwargs)
+        self.fields['user'].widget = widgets.TextInput(attrs={
+            'class': "form-control",
+            'value': self.owner_id,
+            'readonly': True,
+        })
+        self.fields['gifter'].widget = widgets.TextInput(attrs={
+            'class': "form-control",
+            'value': self.request.user.id,
+            'readonly': True,
+        })
+        self.fields['visibility_to_owner'].widget = widgets.CheckboxInput(attrs={
+            'class': "form-check-input",
+        })
+        self.initial['visibility_to_owner'] = False
+
+    class Meta:
+        model = Wish
+        fields = ['name', 'description', 'image', 'shop_url', 'price', 'visibility_to_owner', 'user', 'gifter']
+        widgets = wishform_widgets
+
+
 class WishUpdateForm(forms.ModelForm):
     class Meta:
         model = Wish
         fields = ['name', 'description', 'image', 'shop_url', 'price']
         widgets = wishform_widgets
+
 
 class WishReserveForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -84,6 +113,7 @@ class WishReserveForm(forms.ModelForm):
             }),
         }
 
+
 class WishCancelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(WishCancelForm, self).__init__(*args, **kwargs)
@@ -119,6 +149,7 @@ class WishCancelForm(forms.ModelForm):
             }),
         }
 
+
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
@@ -140,3 +171,4 @@ class UserUpdateForm(forms.ModelForm):
                 'class': "form-control",
             }),
         }
+
