@@ -8,7 +8,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Wish, CustomUser
-from .forms import UserUpdateForm, WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
+from .forms import OwnWishCreateForm, UserUpdateForm, WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
 import datetime
 
 
@@ -91,6 +91,22 @@ class WishCreateView(LoginRequiredMixin, CreateView):
         kwargs = super(WishCreateView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+class OwnWishCreateView(LoginRequiredMixin, CreateView):
+    model = Wish
+    form_class = OwnWishCreateForm
+    template_name = 'wish_create.html'
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class. This is necessary to assign the correct user id to newly created wishes. """
+        kwargs = super(OwnWishCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        kwargs['owner_id'] = self.kwargs.get('owner')
+        return kwargs
+
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
 
 class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish
