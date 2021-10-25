@@ -49,17 +49,17 @@ class OwnWishCreateForm(forms.ModelForm):
         self.owner_id = kwargs.pop('owner_id')
         super(OwnWishCreateForm, self).__init__(*args, **kwargs)
         self.fields['user'].widget = widgets.TextInput(attrs={
-            'class': "form-control",
+            'class': "form-control d-none",
             'value': self.owner_id,
             'readonly': True,
         })
         self.fields['gifter'].widget = widgets.TextInput(attrs={
-            'class': "form-control",
+            'class': "form-control d-none",
             'value': self.request.user.id,
             'readonly': True,
         })
         self.fields['visibility_to_owner'].widget = widgets.CheckboxInput(attrs={
-            'class': "form-check-input",
+            'class': "form-check-input d-none",
         })
         self.initial['visibility_to_owner'] = False
 
