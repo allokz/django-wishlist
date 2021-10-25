@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import widgets
-from .models import Wish
+from .models import CustomUser, Wish
 
 wishform_widgets = {
     'name': widgets.TextInput(attrs={
@@ -116,5 +116,27 @@ class WishCancelForm(forms.ModelForm):
             'gifter': widgets.TextInput(attrs={
                 'class': "d-none",
                 'readonly': True,
+            }),
+        }
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'birthday', 'image']
+        widgets = {
+            'first_name': widgets.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "Vorname",
+            }),
+            'last_name': widgets.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "Nachname",
+            }),
+            'birthday': widgets.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "Geburtstag",
+            }),
+            'image': widgets.ClearableFileInput(attrs={
+                'class': "form-control",
             }),
         }

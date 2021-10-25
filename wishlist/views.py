@@ -8,7 +8,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Wish, CustomUser
-from .forms import WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
+from .forms import UserUpdateForm, WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
 import datetime
 
 
@@ -147,3 +147,9 @@ class ProfileView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Wish.objects.filter(gifter__exact=self.request.user.id).order_by('user', 'name')
+
+class SettingsView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = UserUpdateForm
+    template_name = 'settings.html'
+    success_url = reverse_lazy('profile')
