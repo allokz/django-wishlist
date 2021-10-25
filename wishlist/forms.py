@@ -26,7 +26,6 @@ wishform_widgets = {
 }
 
 class WishCreateForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         """ Grants access to the request object so that the correct id for the current user is assigned. """
         self.request = kwargs.pop('request')
@@ -47,3 +46,75 @@ class WishUpdateForm(forms.ModelForm):
         model = Wish
         fields = ['name', 'description', 'image', 'shop_url', 'price']
         widgets = wishform_widgets
+
+class WishReserveForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        """ Grants access to the request object so that the correct id for the current user is assigned. """
+        self.request = kwargs.pop('request')
+        super(WishReserveForm, self).__init__(*args, **kwargs)
+        self.fields['gifter'].widget = widgets.TextInput(attrs={
+            'class': "form-control d-none",
+            'value': self.request.user.id,
+            'readonly': True,
+        })
+
+    class Meta:
+        model = Wish
+        fields = ['name', 'description', 'price', 'user', 'gifter']
+        widgets = {
+            'name': widgets.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "Name",
+                'readonly': True,
+            }),
+            'description': widgets.Textarea(attrs={
+                'class': "form-control",
+                'placeholder': "Beschreibung",
+                'style': "height: 100px;",
+                'readonly': True,
+            }),
+            'price': widgets.NumberInput(attrs={
+                'class': "form-control",
+                'placeholder': "Preis",
+                'readonly': True,
+            }),
+            'user': widgets.TextInput(attrs={
+                'class': "d-none",
+                'readonly': True,
+            }),
+        }
+
+class WishCancelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(WishCancelForm, self).__init__(*args, **kwargs)
+        self.initial['gifter'] = None
+
+    class Meta:
+        model = Wish
+        fields = ['name', 'description', 'price', 'user', 'gifter']
+        widgets = {
+            'name': widgets.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "Name",
+                'readonly': True,
+            }),
+            'description': widgets.Textarea(attrs={
+                'class': "form-control",
+                'placeholder': "Beschreibung",
+                'style': "height: 100px;",
+                'readonly': True,
+            }),
+            'price': widgets.NumberInput(attrs={
+                'class': "form-control",
+                'placeholder': "Preis",
+                'readonly': True,
+            }),
+            'user': widgets.TextInput(attrs={
+                'class': "d-none",
+                'readonly': True,
+            }),
+            'gifter': widgets.TextInput(attrs={
+                'class': "d-none",
+                'readonly': True,
+            }),
+        }

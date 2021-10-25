@@ -7,7 +7,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Wish, CustomUser
-from .forms import WishCreateForm, WishUpdateForm
+from .forms import WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
 import datetime
 
 
@@ -100,6 +100,23 @@ class WishUpdateView(LoginRequiredMixin, UpdateView):
 class WishDeleteView(LoginRequiredMixin, DeleteView):
     model = Wish
     template_name = 'wish_delete.html'
+    success_url = reverse_lazy('wish-operation-success')
+
+class WishReserveView(LoginRequiredMixin, UpdateView):
+    model = Wish
+    form_class = WishReserveForm
+    template_name = 'wish_reserve.html'
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class. This is necessary to assign the correct user id (from gifter) to reserved wish. """
+        kwargs = super(WishReserveView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class WishCancelView(LoginRequiredMixin, UpdateView):
+    model = Wish
+    form_class = WishCancelForm
+    template_name = 'wish_cancel.html'
     success_url = reverse_lazy('wish-operation-success')
 
 def wish_operation_success(request):
