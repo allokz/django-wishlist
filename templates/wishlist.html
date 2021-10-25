@@ -4,10 +4,10 @@
 {% block content %}
 
 <h2>{% if user.id == wishlist_user_id %}Mein{% else %}{{ wishlist_user_name }}s{% endif %} Wunschzettel</h2>
+<small>
 <p class="mb-0">{{ wish_list.count }} Wünsche im Wert von € {{ total }}</p>
 <p>Nächstes Ereignis: <strong>{{ next_event_name }} am {{ next_event_date }}</strong> (in {{ days_to_next_event }} Tagen)</p>
-<p>{{ wish.user }}</p>
-
+</small>
 
 {% load static %}
 {% if wish_list %}
