@@ -12,4 +12,6 @@ urlpatterns = [
     path('wish/<int:pk>/cancel', views.WishCancelView.as_view(), name='wish-cancel'),
     path('wish/<int:pk>/delete', views.WishDeleteView.as_view(), name='wish-delete'),
     path('wish/success', views.wish_operation_success, name='wish-operation-success'),
+    path('accounts/profile', views.ProfileView.as_view(), name='profile'),
+    path('accounts/<uuid:pk>/settings', views.SettingsView.as_view(), name='settings'),
 ]

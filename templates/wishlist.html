@@ -35,7 +35,13 @@
                 </div>
                 {% elif wish.gifter %}
                 <div class="hstack">
-                    <img src="{{ wish.image.url }}" class="rounded-circle profile-img ms-auto">
+                    {% if wish.gifter.image %}
+                    <img src="{{ wish.gifter.image.url }}" class="rounded-circle profile-img ms-auto">
+                    {% else %}
+                    <div class="rounded-circle ms-auto" style="height: 44px; width: 44px; color: #fff; background-color: #ccc; padding: 10px 13px;">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    {% endif %}
                     <span class="ms-2 me-2">{{ wish.gifter.first_name }}</span>
                     <a href="{{ wish.get_absolute_url }}/cancel" class="btn-close me-auto"></a>
                 </div>

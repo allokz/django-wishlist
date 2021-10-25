@@ -9,6 +9,7 @@ import uuid
 class CustomUser(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     birthday = models.DateField(null=True, blank=True)
+    image = models.ImageField('Profilbild', upload_to='images/profile/', blank=True, null=True)
 
 class Wish(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.SET_NULL, null=True)
