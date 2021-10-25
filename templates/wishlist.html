@@ -33,8 +33,14 @@
                     <a href="{{ wish.get_absolute_url }}/update" class="button button-secondary text-center ms-auto">Bearbeiten</a>
                     <a href="{{ wish.get_absolute_url }}/delete" class="button button-red text-center me-auto"><i class="fas fa-trash-alt"></i></a>
                 </div>
+                {% elif wish.gifter %}
+                <div class="hstack">
+                    <img src="{{ wish.image.url }}" class="rounded-circle profile-img ms-auto">
+                    <span class="ms-2 me-2">{{ wish.gifter.first_name }}</span>
+                    <a href="{{ wish.get_absolute_url }}/cancel" class="btn-close me-auto"></a>
+                </div>
                 {% else %}
-                <a href="#" class="button button-secondary text-center">Schenken</a>
+                <a href="{{ wish.get_absolute_url }}/reserve" class="button button-secondary text-center">Schenken</a>
                 {% endif %}
             </div>
         </div>
