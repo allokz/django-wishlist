@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 
+
 {% block content %}
 
 <form action="" method="post" enctype="multipart/form-data" style="max-width: 500px; margin: auto;">
@@ -30,8 +31,9 @@
         {{ form.image.errors }}
     </div>
     <div class="form-floating mb-3">
+        {{ form.visibility_to_owner }}
         {{ form.user }}
-        <label for="{{ form.user.id_for_label }}">zugeordnete Benutzer-ID</label>
+        {{ form.gifter }}
     </div>
 
     <div class="mb-3">
@@ -39,6 +41,5 @@
         <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Zurück</a>
     </div>
 </form>
-
 
 {% endblock %}
