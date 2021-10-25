@@ -5,7 +5,7 @@ from wishlist.models import CustomUser, Wish
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'id', )
+    list_display = ('username', 'first_name', 'last_name', 'id')
 
 @admin.register(Wish)
 class WishAdmin(admin.ModelAdmin):
