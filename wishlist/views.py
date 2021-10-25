@@ -20,7 +20,10 @@ class WishListView(generic.ListView):
     template_name = 'wishlist.html'
 
     def get_queryset(self):
-        return Wish.objects.filter(user__exact=self.kwargs.get('pk')).order_by('name')
+        if self.request.user.id == self.kwargs.get('pk'):
+            return Wish.objects.filter(user__exact=self.kwargs.get('pk')).filter(visibility_to_owner__exact=True).order_by('name')
+        else:
+            return Wish.objects.filter(user__exact=self.kwargs.get('pk')).order_by('name')
 
     def get_context_data(self, **kwargs):
         context = super(WishListView, self).get_context_data(**kwargs)
