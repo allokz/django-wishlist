@@ -3,7 +3,13 @@
 {% block content %}
 <div class="row">
     <div class="col-md-4">
+        {% if user.image %}
         <img src="{{ user.image.url }}" class="rounded-circle d-block m-auto mb-3 mb-md-0" height="200px" style="border: 1px solid #ccc;">
+        {% else %}
+        <div class="rounded-circle m-auto" style="height: 200px; width: 200px; color: #fff; font-size: 30px; background-color: #ccc; padding: 80px 85px;">
+            <i class="fas fa-images"></i>
+        </div>
+        {% endif %}
     </div>
     <div class="col">
         <p class="h5 mb-0 mt-3">{{ user.first_name }} {% if user.last_name %}{{ user.last_name }}{% endif %}</p>
