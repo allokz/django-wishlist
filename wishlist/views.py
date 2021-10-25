@@ -113,11 +113,19 @@ class WishReserveView(LoginRequiredMixin, UpdateView):
         kwargs['request'] = self.request
         return kwargs
 
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
+
 class WishCancelView(LoginRequiredMixin, UpdateView):
     model = Wish
     form_class = WishCancelForm
     template_name = 'wish_cancel.html'
     success_url = reverse_lazy('wish-operation-success')
+
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
 
 def wish_operation_success(request):
     user_id = None
