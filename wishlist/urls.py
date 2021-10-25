@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('wishlist/<uuid:pk>', views.WishListView.as_view() , name='wishlist'),
     path('wishlist/shared', views.wishlists_shared_with_me, name='wishlists-shared'),
+    path('wishlist/<uuid:owner>/wish/create', views.OwnWishCreateView.as_view(), name='wish-create-own'),
     path('wish/create', views.WishCreateView.as_view(), name='wish-create'),
     path('wish/<int:pk>', views.wish_detail_view, name='wish-detail'),
     path('wish/<int:pk>/update', views.WishUpdateView.as_view(), name='wish-update'),
