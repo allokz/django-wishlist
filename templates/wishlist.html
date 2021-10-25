@@ -35,7 +35,7 @@
                 </div>
                 {% elif wish.gifter %}
                 <div class="hstack">
-                    <img src="{{ wish.image.url }}" class="rounded-circle profile-img ms-auto">
+                    <img src="{{ wish.gifter.image.url }}" class="rounded-circle profile-img ms-auto">
                     <span class="ms-2 me-2">{{ wish.gifter.first_name }}</span>
                     <a href="{{ wish.get_absolute_url }}/cancel" class="btn-close me-auto"></a>
                 </div>
