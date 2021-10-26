@@ -72,8 +72,11 @@ class OwnWishCreateForm(forms.ModelForm):
 class WishUpdateForm(forms.ModelForm):
     class Meta:
         model = Wish
-        fields = ['name', 'description', 'image', 'shop_url', 'price']
+        fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
         widgets = wishform_widgets
+        widgets['user'] = forms.widgets.TextInput(attrs={
+            'class': "d-none"
+        })
 
 
 class WishReserveForm(forms.ModelForm):

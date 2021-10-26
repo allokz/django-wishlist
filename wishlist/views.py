@@ -115,7 +115,10 @@ class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish
     form_class = WishUpdateForm
     template_name = 'wish_update.html'
-    success_url = reverse_lazy('wish-operation-success')  
+
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
 
 class WishDeleteView(LoginRequiredMixin, DeleteView):
     model = Wish
