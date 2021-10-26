@@ -23,6 +23,18 @@ wishform_widgets = {
     'image': widgets.ClearableFileInput(attrs={
         'class': "form-control",
     }),
+    'user': widgets.TextInput(attrs={
+        'class': "d-none",
+        'readonly': True,
+    }),
+    'gifter': widgets.TextInput(attrs={
+        'class': "d-none",
+        'readonly': True,
+    }),
+    'visibility_to_owner': widgets.CheckboxInput(attrs={
+        'class': "d-none",
+        'readonly': True,
+    }),
 }
 
 class WishCreateForm(forms.ModelForm):
@@ -30,15 +42,11 @@ class WishCreateForm(forms.ModelForm):
         """ Grants access to the request object so that the correct id for the current user is assigned. """
         self.request = kwargs.pop('request')
         super(WishCreateForm, self).__init__(*args, **kwargs)
-        self.fields['user'].widget = widgets.TextInput(attrs={
-            'class': "form-control d-none",
-            'value': self.request.user.id,
-            'readonly': True,
-        })
+        self.initial['user'] = self.request.user.id
 
     class Meta:
         model = Wish
-        fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
+        fields = ['name', 'description', 'shop_url', 'price', 'image', 'user']
         widgets = wishform_widgets
 
 
@@ -48,35 +56,21 @@ class OwnWishCreateForm(forms.ModelForm):
         self.request = kwargs.pop('request')
         self.owner_id = kwargs.pop('owner_id')
         super(OwnWishCreateForm, self).__init__(*args, **kwargs)
-        self.fields['user'].widget = widgets.TextInput(attrs={
-            'class': "form-control d-none",
-            'value': self.owner_id,
-            'readonly': True,
-        })
-        self.fields['gifter'].widget = widgets.TextInput(attrs={
-            'class': "form-control d-none",
-            'value': self.request.user.id,
-            'readonly': True,
-        })
-        self.fields['visibility_to_owner'].widget = widgets.CheckboxInput(attrs={
-            'class': "form-check-input d-none",
-        })
+        self.initial['user'] = self.owner_id
+        self.initial['gifter'] = self.request.user.id
         self.initial['visibility_to_owner'] = False
 
     class Meta:
         model = Wish
-        fields = ['name', 'description', 'image', 'shop_url', 'price', 'visibility_to_owner', 'user', 'gifter']
+        fields = ['name', 'description', 'shop_url', 'price', 'image', 'user', 'gifter', 'visibility_to_owner']
         widgets = wishform_widgets
 
 
 class WishUpdateForm(forms.ModelForm):
     class Meta:
         model = Wish
-        fields = ['name', 'description', 'image', 'shop_url', 'price', 'user']
+        fields = ['name', 'description', 'shop_url', 'price', 'image', 'user']
         widgets = wishform_widgets
-        widgets['user'] = forms.widgets.TextInput(attrs={
-            'class': "d-none"
-        })
 
 
 class WishReserveForm(forms.ModelForm):
@@ -84,11 +78,7 @@ class WishReserveForm(forms.ModelForm):
         """ Grants access to the request object so that the correct id for the current user is assigned. """
         self.request = kwargs.pop('request')
         super(WishReserveForm, self).__init__(*args, **kwargs)
-        self.fields['gifter'].widget = widgets.TextInput(attrs={
-            'class': "form-control d-none",
-            'value': self.request.user.id,
-            'readonly': True,
-        })
+        self.initial['gifter'] = self.request.user.id
 
     class Meta:
         model = Wish
@@ -111,6 +101,10 @@ class WishReserveForm(forms.ModelForm):
                 'readonly': True,
             }),
             'user': widgets.TextInput(attrs={
+                'class': "d-none",
+                'readonly': True,
+            }),
+            'gifter': widgets.TextInput(attrs={
                 'class': "d-none",
                 'readonly': True,
             }),
