@@ -3,6 +3,15 @@
 {% block content %}
 <form action="" method="post" enctype="multipart/form-data" style="max-width: 500px; margin: auto;">
     {% csrf_token %}
+
+    <p class="h3 mb-3">Profileinstellungen</p>
+    <p>Hier kannst du einige Daten zu deinem Profil anpassen.</p>
+    {% if user.birthday == None %}
+    <p><small>Du hast zum Beispiel noch nicht dein Geburtstag eingetragen.
+       Mit dieser Info kann auf der Wunschliste nicht nur die Zeit bis Weihnachten, 
+       sondern auch bis zu deinem Geburtstag berechnet werden.</small></p>
+    {% endif %}
+
     <div class="form-floating mb-3">
         {{ form.first_name }}
         <label for="{{ form.first_name.id_for_label }}">Vorname</label>
