@@ -49,28 +49,29 @@ class WishListView(generic.ListView):
         if today > christmas_date:
             christmas_date = datetime.date(year + 1, 12, 24)
 
+        days_to_christmas = (christmas_date - today).days
+
+        next_event_name = 'Weihnachten'
+        next_event_date = christmas_date
+        days_to_next_event = days_to_christmas
+
         birthday = datetime.date
         wishlist_username = None
         for user in CustomUser.objects.filter(id__exact=wishlist_user_id):
-            birthday = datetime.date(year, user.birthday.month, user.birthday.day)
-            wishlist_username = user.username
-        if today > birthday:
-            birthday = datetime.date(year + 1, birthday.month, birthday.day)
+            if user.birthday:
+                birthday = datetime.date(year, user.birthday.month, user.birthday.day)
+                wishlist_username = user.username
 
-        next_event_name = 'next'
-        next_event_date = datetime.date
-        days_to_next_event = datetime.date
-        days_to_birthday = (birthday - today).days
-        days_to_christmas = (christmas_date - today).days
+                if today > birthday:
+                    birthday = datetime.date(year + 1, birthday.month, birthday.day)
+        
+                days_to_birthday = (birthday - today).days
 
-        if days_to_birthday < days_to_christmas:
-            next_event_name = 'Geburtstag'
-            next_event_date = birthday
-            days_to_next_event = days_to_birthday
-        else:
-            next_event_name = 'Weihnachten'
-            next_event_date = christmas_date
-            days_to_next_event = days_to_christmas
+                if days_to_birthday < days_to_christmas:
+                    next_event_name = 'Geburtstag'
+                    next_event_date = birthday
+                    days_to_next_event = days_to_birthday
+        
         
         context['next_event_name'] = next_event_name
         context['next_event_date'] = next_event_date
