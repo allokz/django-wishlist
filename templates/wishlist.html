@@ -28,7 +28,7 @@
                 {% endif %}
                 <p class="card-text mb-auto">{{ wish.description }}</p>
                 <p class="card-price mt-2 text-center">€ {{ wish.price }}</p>
-                {% if user == wish.user %}
+                {% if user == wish.user or wish.visibility_to_owner == False and user == wish.gifter %}
                 <div class="hstack gap-2 overflow-hidden">
                     <a href="{{ wish.get_absolute_url }}/update" class="button button-secondary text-center ms-auto">Bearbeiten</a>
                     <a href="{{ wish.get_absolute_url }}/delete" class="button button-red text-center me-auto"><i class="fas fa-trash-alt"></i></a>
@@ -70,7 +70,7 @@
     <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
     <div class="card-body vstack">
         <p class="card-text text-center mb-auto">Füge ein eigenes Geschenk der Liste hinzu <small>(dieses wird direkt als reserviert markiert).</small></p>
-        <a href="#" class="button button-secondary text-center">Eigenes Geschenk hinzufügen</a>
+        <a href="{{ request.path }}/wish/create" class="button button-secondary text-center">Eigenes Geschenk hinzufügen</a>
     </div>
 </div>
 {% endif %}

@@ -64,7 +64,7 @@ nav {
 
 .content {
     max-width: 768px;
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 220px);
     margin-top: 20px;
 }
 

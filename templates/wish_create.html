@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 
+
 {% block content %}
 
 <form action="" method="post" enctype="multipart/form-data" style="max-width: 500px; margin: auto;">
@@ -29,16 +30,15 @@
         {{ form.image }}
         {{ form.image.errors }}
     </div>
-    <div class="form-floating mb-3">
-        {{ form.user }}
-        <label for="{{ form.user.id_for_label }}">zugeordnete Benutzer-ID</label>
-    </div>
+
+    {{ form.visibility_to_owner }}
+    {{ form.user }}
+    {{ form.gifter }}
 
     <div class="mb-3">
         <input type="submit" class="btn btn-success me-2" value="Das wünsche ich mir!">
         <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Zurück</a>
     </div>
 </form>
-
 
 {% endblock %}

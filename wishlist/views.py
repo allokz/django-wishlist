@@ -8,7 +8,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Wish, CustomUser
-from .forms import UserUpdateForm, WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
+from .forms import OwnWishCreateForm, UserUpdateForm, WishCreateForm, WishUpdateForm, WishReserveForm, WishCancelForm
 import datetime
 
 
@@ -20,7 +20,10 @@ class WishListView(generic.ListView):
     template_name = 'wishlist.html'
 
     def get_queryset(self):
-        return Wish.objects.filter(user__exact=self.kwargs.get('pk')).order_by('name')
+        if self.request.user.id == self.kwargs.get('pk'):
+            return Wish.objects.filter(user__exact=self.kwargs.get('pk')).filter(visibility_to_owner__exact=True).order_by('name')
+        else:
+            return Wish.objects.filter(user__exact=self.kwargs.get('pk')).order_by('name')
 
     def get_context_data(self, **kwargs):
         context = super(WishListView, self).get_context_data(**kwargs)
@@ -92,11 +95,30 @@ class WishCreateView(LoginRequiredMixin, CreateView):
         kwargs['request'] = self.request
         return kwargs
 
+class OwnWishCreateView(LoginRequiredMixin, CreateView):
+    model = Wish
+    form_class = OwnWishCreateForm
+    template_name = 'wish_create.html'
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class. This is necessary to assign the correct user id to newly created wishes. """
+        kwargs = super(OwnWishCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        kwargs['owner_id'] = self.kwargs.get('owner')
+        return kwargs
+
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
+
 class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish
     form_class = WishUpdateForm
     template_name = 'wish_update.html'
-    success_url = reverse_lazy('wish-operation-success')  
+
+    def get_success_url(self) -> str:
+        user_id = self.request.POST.get('user')
+        return reverse('wishlist', args=[str(user_id)])
 
 class WishDeleteView(LoginRequiredMixin, DeleteView):
     model = Wish

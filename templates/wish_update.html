@@ -29,11 +29,12 @@
         {{ form.image.errors }}
     </div>
 
+    {{ form.user }}
+
     <div class="mb-3">
         <input type="submit" class="btn btn-success me-2" value="Speichern">
-        <a href="{% url 'wishlist' user.id %}" class="btn btn-outline-secondary">Abbrechen</a>
+        <a href="{% url 'wishlist' form.user.value %}" class="btn btn-outline-secondary">Abbrechen</a>
     </div>
 </form>
-
 
 {% endblock %}
