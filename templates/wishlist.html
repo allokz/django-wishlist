@@ -5,7 +5,7 @@
 
 <h2>{% if user.id == wishlist_user_id %}Mein{% else %}{{ wishlist_user_name }}s{% endif %} Wunschzettel</h2>
 <small>
-<p class="mb-0">{{ wish_list.count }} Wünsche im Wert von € {{ total }}</p>
+<p class="mb-0">{{ wish_list.count }} {% if wish_list.count == 1 %}Wunsch{% else %}Wünsche{% endif %} im Wert von € {{ total }}</p>
 <p>Nächstes Ereignis: <strong>{{ next_event_name }} am {{ next_event_date }}</strong> (in {{ days_to_next_event }} Tagen)</p>
 </small>
 
@@ -53,7 +53,11 @@
     {% endfor %}
 {% else %}
 <div class="alert alert-warning" role="alert">
-    No wishes on this wishlist.
+    <i class="fas fa-heart-broken me-2"></i>
+    Du hast noch keine Wünsche auf deinem Wunschzettel.
+    <br>
+    <i class="fas fa-heart-broken me-2 invisible"></i>
+    <small>Erstelle doch jetzt gleichen einen! Klicke dazu einfach auf "Neuen Wunsch hinzufügen".</small>
 </div>
 {% endif %}
 
