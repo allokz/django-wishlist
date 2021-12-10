@@ -14,69 +14,82 @@
     {% for wish in wish_list %}
         <div class="card">
             {% if wish.image %}
-            <img src="{{ wish.image.url }}" class="card-img-top">
+                <img src="{{ wish.image.url }}" class="card-img-top">
             {% else %}
-            <div class="card-img-noimg"></div>
+                <div class="card-img-noimg"></div>
             {% endif %}
             <div class="card-body vstack">
                 {% if wish.shop_url %}
-                <a href="{{ wish.shop_url }}" class="card-title-link" target="_blank">
-                    <h5 class="card-title">{{ wish.name }}</h5>
-                </a>
+                    <a href="{{ wish.shop_url }}" class="card-title-link" target="_blank">
+                        <h5 class="card-title">{{ wish.name }}</h5>
+                    </a>
                 {% else %}
-                <h5 class="card-title">{{ wish.name }}</h5>
+                    <h5 class="card-title">{{ wish.name }}</h5>
                 {% endif %}
                 <p class="card-text mb-auto">{{ wish.description }}</p>
                 <p class="card-price mt-2 text-center">€ {{ wish.price }}</p>
                 {% if user == wish.user or wish.visibility_to_owner == False and user == wish.gifter %}
-                <div class="hstack gap-2 overflow-hidden">
-                    <a href="{{ wish.get_absolute_url }}/update" class="button button-secondary text-center ms-auto">Bearbeiten</a>
-                    <a href="{{ wish.get_absolute_url }}/delete" class="button button-red text-center me-auto"><i class="fas fa-trash-alt"></i></a>
-                </div>
-                {% elif wish.gifter %}
-                <div class="hstack">
-                    {% if wish.gifter.image %}
-                    <img src="{{ wish.gifter.image.url }}" class="rounded-circle profile-img ms-auto">
-                    {% else %}
-                    <div class="rounded-circle ms-auto" style="height: 44px; width: 44px; color: #fff; background-color: #ccc; padding: 10px 13px;">
-                        <i class="fas fa-images"></i>
+                    <div class="hstack gap-2 overflow-hidden">
+                        <a href="{{ wish.get_absolute_url }}/update" class="button button-secondary text-center ms-auto">Bearbeiten</a>
+                        <a href="{{ wish.get_absolute_url }}/delete" class="button button-red text-center me-auto"><i class="fas fa-trash-alt"></i></a>
                     </div>
-                    {% endif %}
-                    <span class="ms-2 me-2">{% if wish.gifter.first_name %} {{ wish.gifter.first_name }} {% else %} {{ wish.gifter.username }} {% endif %}</span>
-                    <a href="{{ wish.get_absolute_url }}/cancel" class="btn-close me-auto"></a>
-                </div>
+                {% elif wish.gifter %}
+                    <!-- gifter information (displayed if gifter is set in wish model) -->
+                    <div class="hstack">
+                        <!-- image of the gifter -->
+                        {% if wish.gifter.image %}
+                        <img src="{{ wish.gifter.image.url }}" class="rounded-circle profile-img ms-auto">
+                        {% else %}
+                        <div class="rounded-circle ms-auto" style="height: 44px; width: 44px; color: #fff; background-color: #ccc; padding: 10px 13px;">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        {% endif %}
+                        <!-- name of the gifter -->
+                        <span class="ms-2 {%if user == wish.gifter %}me-2{% else %}me-auto{% endif %}">
+                            {% if wish.gifter.first_name %} 
+                                {{ wish.gifter.first_name }} 
+                            {% else %} 
+                                {{ wish.gifter.username }} 
+                            {% endif %}
+                        </span>
+                        <!-- delete button (displayed if user = gifter) -->
+                        {% if user == wish.gifter %}
+                            <a href="{{ wish.get_absolute_url }}/cancel" class="btn-close me-auto"></a>
+                        {% endif %}
+                    </div>
                 {% else %}
-                <a href="{{ wish.get_absolute_url }}/reserve" class="button button-secondary text-center">Schenken</a>
+                    <!-- show wish button -> let people reserve a wish -->
+                    <a href="{{ wish.get_absolute_url }}/reserve" class="button button-secondary text-center">Schenken</a>
                 {% endif %}
             </div>
         </div>
     {% endfor %}
 {% else %}
-<div class="alert alert-warning" role="alert">
-    <i class="fas fa-heart-broken me-2"></i>
-    Du hast noch keine Wünsche auf deinem Wunschzettel.
-    <br>
-    <i class="fas fa-heart-broken me-2 invisible"></i>
-    <small>Erstelle doch jetzt gleichen einen! Klicke dazu einfach auf "Neuen Wunsch hinzufügen".</small>
-</div>
+    <div class="alert alert-warning" role="alert">
+        <i class="fas fa-heart-broken me-2"></i>
+        Du hast noch keine Wünsche auf deinem Wunschzettel.
+        <br>
+        <i class="fas fa-heart-broken me-2 invisible"></i>
+        <small>Erstelle doch jetzt gleichen einen! Klicke dazu einfach auf "Neuen Wunsch hinzufügen".</small>
+    </div>
 {% endif %}
 
 {% if user.id == wishlist_user_id %}
-<div class="card">
-    <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
-    <div class="card-body vstack">
-        <p class="card-text text-center mb-auto">Füge einen weiteren Wunsch zu deiner Liste hinzu.</p>
-        <a href="{% url 'wish-create' %}" class="button button-secondary text-center">Neuen Wunsch hinzufügen</a>
+    <div class="card">
+        <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
+        <div class="card-body vstack">
+            <p class="card-text text-center mb-auto">Füge einen weiteren Wunsch zu deiner Liste hinzu.</p>
+            <a href="{% url 'wish-create' %}" class="button button-secondary text-center">Neuen Wunsch hinzufügen</a>
+        </div>
     </div>
-</div>
 {% else %}
-<div class="card">
-    <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
-    <div class="card-body vstack">
-        <p class="card-text text-center mb-auto">Füge ein eigenes Geschenk der Liste hinzu <small>(dieses wird direkt als reserviert markiert).</small></p>
-        <a href="{{ request.path }}/wish/create" class="button button-secondary text-center">Eigenes Geschenk hinzufügen</a>
+    <div class="card">
+        <img src="{% static 'images/new.png' %}" class="card-img-top" style="object-fit: none;">
+        <div class="card-body vstack">
+            <p class="card-text text-center mb-auto">Füge ein eigenes Geschenk der Liste hinzu <small>(dieses wird direkt als reserviert markiert).</small></p>
+            <a href="{{ request.path }}/wish/create" class="button button-secondary text-center">Eigenes Geschenk hinzufügen</a>
+        </div>
     </div>
-</div>
 {% endif %}
 
 {% endblock %}
