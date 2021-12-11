@@ -4,7 +4,7 @@
 
 <form action="" method="post" enctype="multipart/form-data" style="max-width: 500px; margin: auto;">
     {% csrf_token %}
-    <p>Du möchtest den folgenden Wunsch <strong>zückziehen</strong>?</p>
+    <p>Du möchtest den folgenden Wunsch <strong>zurückziehen</strong>?</p>
     <div class="form-floating mb-3">
         {{ form.name }}
         <label for="{{ form.name.id_for_label }}">Name</label>
